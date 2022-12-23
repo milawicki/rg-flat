@@ -1,9 +1,11 @@
 import * as assert from 'assert';
 
-function deepFlat(array: any[]): any[] {
-  return array.reduce((all, curr)=> ([
+type ExtractUniqueTypes<T> = T extends (infer R)[] ? ExtractUniqueTypes<R>: T;
+
+function deepFlat<TParam extends any[]>(array: TParam): ExtractUniqueTypes<TParam>[] {
+  return array.reduce((all, current) => ([
     ...all,
-    ...(Array.isArray(curr) ? deepFlat(curr) : [curr]),
+    ...(Array.isArray(current) ? deepFlat(current) : [current]),
   ]), []);
 }
 
